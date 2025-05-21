@@ -1,26 +1,31 @@
 import React from 'react'
 import { useState } from 'react'
-const Player = ({name,symbol}) => {
+const Player = ({intialName,symbol}) => {
 
     const [editing,setIsEditing] = useState(false)
+    const [name,setName] = useState(intialName)
+
+    // handle Edit / Save
     const handleEditing = function(){
-        setIsEditing(!editing)
+        setIsEditing((editing)=>!editing)
     }
-  
+
+    // Handle Input Value Change
+    const handleChange = function(e){
+      setName(e.target.value)
+    }
+    let playerName = <span className="player-name">{name}</span>
+    if(editing){
+      playerName = <input type='text' required value={name} onChange={handleChange}/>
+    }
   return (
-    <>
-    { editing ? (
-        <input type='text' required/>
-    ):(
-        <li>
+    <li>
               <span className="player">
-              <span className="player-name">{name}</span>
+                {playerName}
               <span className="player-symbol">{symbol}</span>
               </span>
-              <button onClick={handleEditing}>Edit</button>
+              <button onClick={handleEditing}>{editing ? 'Save' : 'Edit'}</button>
     </li>
-    )}
-    </>
   )
 }
 
